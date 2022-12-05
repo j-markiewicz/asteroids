@@ -1,0 +1,64 @@
+[package]
+name = "asteroids"
+version = "0.1.0"
+edition = "2021"
+
+# UNCOMMENT FOR ANDROID:
+# -----------------------
+# [lib]
+# name = "asteroids"
+# crate-type = ["cdylib"]
+# -----------------------
+
+[features]
+default = ["debug-text"]
+debug-text = ["bevy-debug-text-overlay/debug"]
+
+[dependencies]
+bevy = "0.9.0"
+bevy-debug-text-overlay = { version = "4", default-features = false, features = [
+	"builtin-font",
+] }
+bevy_embedded_assets = "0.6"
+rand = "0.8.5"
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+console_error_panic_hook = "0.1"
+
+[package.metadata.android]
+build_targets = [
+	"aarch64-linux-android",
+	"armv7-linux-androideabi",
+]
+
+[package.metadata.android.sdk]
+min_sdk_version = 28
+target_sdk_version = 33
+
+[package.metadata.android.application]
+label = "Asteroids"
+
+[package.metadata.android.signing.release]
+path = "signing.keystore"
+keystore_password = "password"
+
+[profile.dev]
+lto = false
+incremental = true
+debug = true
+opt-level = 0
+
+[profile.dev.package."*"]
+opt-level = 2
+
+[profile.release]
+lto = "fat"
+incremental = false
+codegen-units = 1
+strip = true
+debug = false
+opt-level = 3
+
+[profile.release-wasm]
+inherits = "release"
+opt-level = "z"
