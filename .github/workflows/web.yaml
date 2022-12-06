@@ -1,0 +1,46 @@
+name: Web build and deploy
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "web"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/configure-pages@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          target: wasm32-unknown-unknown
+          override: true
+          toolchain: stable
+      - uses: actions-rs/cargo@v1
+        with:
+          command: install
+          args: wasm-bindgen-cli
+      - uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --profile release-wasm --target wasm32-unknown-unknown
+      - run: |
+        mkdir web
+        wasm-bindgen --out-name asteroids --out-dir web --target web target/wasm32-unknown-unknown/release-wasm/asteroids.wasm
+        cp asteroids.html web/index.html
+      - uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./web
+      - id: deployment
+        uses: actions/deploy-pages@v1
