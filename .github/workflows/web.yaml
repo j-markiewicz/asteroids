@@ -34,7 +34,7 @@ jobs:
           args: --profile release-wasm --target wasm32-unknown-unknown
       - run: |
           mkdir web
-          wasm-bindgen --out-name asteroids --out-dir web --target web target/wasm32-unknown-unknown/release-wasm/asteroids.wasm
+          wasm-bindgen --out-name asteroids --out-dir web/target --target web target/wasm32-unknown-unknown/release-wasm/asteroids.wasm
           cp asteroids.html web/index.html
       - uses: actions/upload-pages-artifact@v1
         with:
