@@ -27,6 +27,7 @@ jobs:
           target: wasm32-unknown-unknown
           override: true
           toolchain: stable
+      - uses: Swatinem/rust-cache@v2
       - uses: jetli/wasm-bindgen-action@v0.2.0
       - uses: actions-rs/cargo@v1
         with:
