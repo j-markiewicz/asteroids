@@ -29,3 +29,8 @@ You need the Android SDK, `cargo-apk`, the appropriate Rust targets (`aarch64-li
 2. Uncomment to section labeled `UNCOMMENT FOR ANDROID` in `Cargo.toml`
 3. Use `cargo apk build` to build the APK
 4. Install the app from `target/debug/apk/asteroids.apk`
+
+## License
+
+- [MIT](https://opensource.org/licenses/MIT) or [Apache 2.0](https://opensource.org/licenses/Apache-2.0), your choice (SPDX `MIT OR Apache-2.0`) for the contents of this repository *except the `assets` directory*
+- [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) (SPDX `CC-BY-SA-4.0`) for the contents of the `assets` directory
